@@ -15,11 +15,11 @@ import java.util.Map;
 
 public class Tabular {
 
-    private final Map<Object, Integer> rowIndex;
-    private final Map<Object, Integer> columnIndex;
+    private final Map<String, Integer> rowIndex;
+    private final Map<String, Integer> columnIndex;
     private final String[][] data;
 
-    private Tabular(Map<Object, Integer> rowIndex, Map<Object, Integer> columnIndex) {
+    private Tabular(Map<String, Integer> rowIndex, Map<String, Integer> columnIndex) {
 	this.rowIndex = rowIndex;
 	this.columnIndex = columnIndex;
 	data = new String[rowIndex.size()][columnIndex.size()];
@@ -43,19 +43,19 @@ public class Tabular {
 	Integer[] index = { rowIndex.get(rowLabel), columnIndex.get(columnLabel)};
 	if (index[0] == null) {
 	    throw new IllegalArgumentException(String.format("The rowLabel [%s] is unknown. Known labels are: %s",
-		    rowLabel, rowIndex.toString()));
+		    rowLabel, rowIndex.keySet().toString()));
 	}
 	if (index[1] == null) {
 	    throw new IllegalArgumentException(String.format("The columnLabel [%s] is unknown. Known labels are: %s",
-		    columnLabel, columnIndex.toString()));
+		    columnLabel, columnIndex.keySet().toString()));
 	}
 	return index;
     }
 
     public static class TabularBuilder {
 
-	private Map<Object, Integer> rowIndex;
-	private Map<Object, Integer> columnIndex;
+	private Map<String, Integer> rowIndex;
+	private Map<String, Integer> columnIndex;
 
 	/**
 	 * Sets the row labels. Tabular values will have be set using these names.
@@ -64,7 +64,7 @@ public class Tabular {
 	 * @return this builder
 	 */
 	public TabularBuilder setRows(String... rowLabels) {
-	    rowIndex = new HashMap<Object, Integer>();
+	    rowIndex = new HashMap<String, Integer>();
 	    for (int i = 0; i < rowLabels.length; i++) {
 		rowIndex.put(rowLabels[i], i);
 	    }
@@ -72,7 +72,7 @@ public class Tabular {
 	}
 
 	/**
-	 * Sets the number of rows. Tabular values will have to be set using strings in ["1", ..., "$numberOfRows"].
+	 * Sets the number of rows. Tabular values will have to be set using integer in [0, ..., $numberOfRows-1].
 	 *
 	 * @param numberOfRows
 	 * @return this builder
@@ -80,9 +80,9 @@ public class Tabular {
 	public TabularBuilder setRows(final int numberOfRows) {
 	    if (numberOfRows < 1)
 		throw new IllegalArgumentException("Number of rows must be at least 1");
-	    columnIndex = new HashMap<Object, Integer>();
+	    rowIndex = new HashMap<String, Integer>();
 	    for (int i = 0; i < numberOfRows; i++) {
-		rowIndex.put(i, i);
+		rowIndex.put(Integer.toString(i), i);
 	    }
 	    return this;
 	}
@@ -94,7 +94,7 @@ public class Tabular {
 	 * @return this builder
 	 */
 	public TabularBuilder setColumns(String... columnLabels) {
-	    columnIndex = new HashMap<Object, Integer>();
+	    columnIndex = new HashMap<String, Integer>();
 	    for (int i = 0; i < columnLabels.length; i++) {
 		columnIndex.put(columnLabels[i], i);
 	    }
@@ -102,8 +102,8 @@ public class Tabular {
 	}
 
 	/**
-	 * Sets the number of columns. Tabular values will have to be set using strings in ["1", ...,
-	 * "$numberOfColumns"].
+	 * Sets the number of columns. Tabular values will have to be set using strings in [0, ...,
+	 * $numberOfColumns].
 	 *
 	 * @param numberOfColumns
 	 * @return this builder
@@ -111,9 +111,9 @@ public class Tabular {
 	public TabularBuilder setColumns(final int numberOfColumns) {
 	    if (numberOfColumns <= 0)
 		throw new IllegalArgumentException("Number of columns must be at least 1");
-	    columnIndex = new HashMap<Object, Integer>();
+	    columnIndex = new HashMap<String, Integer>();
 	    for (int i = 0; i < numberOfColumns; i++) {
-		columnIndex.put(i, i);
+		columnIndex.put(Integer.toString(i), i);
 	    }
 	    return this;
 	}
