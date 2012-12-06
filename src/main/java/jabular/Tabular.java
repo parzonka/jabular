@@ -10,19 +10,32 @@
  */
 package jabular;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Tabular {
 
+    private final String[] rowLabels;
+    private final String[] columnLabels;
+    private final String[][] data;
     private final Map<String, Integer> rowIndex;
     private final Map<String, Integer> columnIndex;
-    private final String[][] data;
 
-    private Tabular(Map<String, Integer> rowIndex, Map<String, Integer> columnIndex) {
-	this.rowIndex = rowIndex;
-	this.columnIndex = columnIndex;
-	data = new String[rowIndex.size()][columnIndex.size()];
+    private Tabular(String[] rowLabels, String[] columnLabels) {
+	this.rowLabels = rowLabels;
+	this.columnLabels = columnLabels;
+	rowIndex = createIndex(rowLabels);
+	columnIndex = createIndex(columnLabels);
+	data = new String[rowLabels.length][columnLabels.length];
+    }
+
+    public static Map<String, Integer> createIndex(String[] labels) {
+	Map<String, Integer> result = new HashMap<String, Integer>();
+	for (int i = 0; i < labels.length; i++) {
+	    result.put(labels[i], i);
+	}
+	return result;
     }
 
     public static Builder getBuilder() {
@@ -69,19 +82,31 @@ public class Tabular {
 	Integer[] index = { rowIndex.get(rowLabel), columnIndex.get(columnLabel) };
 	if (index[0] == null) {
 	    throw new IllegalArgumentException(String.format("The rowLabel [%s] is unknown. Known labels are: %s",
-		    rowLabel, rowIndex.keySet().toString()));
+		    rowLabel, Arrays.toString(rowLabels)));
 	}
 	if (index[1] == null) {
 	    throw new IllegalArgumentException(String.format("The columnLabel [%s] is unknown. Known labels are: %s",
-		    columnLabel, columnIndex.keySet().toString()));
+		    columnLabel, Arrays.toString(columnLabels)));
 	}
 	return index;
     }
 
+    protected String[][] getData() {
+	return data;
+    }
+
+    protected String[] getRowLabels() {
+	return rowLabels;
+    }
+
+    protected String[] getColumnLabels() {
+	return columnLabels;
+    }
+
     public static class Builder {
 
-	private Map<String, Integer> rowIndex;
-	private Map<String, Integer> columnIndex;
+	private String[] rowLabels;
+	private String[] columnLabels;
 
 	/**
 	 * Sets the row labels. Tabular values will have be set using these names.
@@ -90,10 +115,7 @@ public class Tabular {
 	 * @return this builder
 	 */
 	public Builder setRows(String... rowLabels) {
-	    rowIndex = new HashMap<String, Integer>();
-	    for (int i = 0; i < rowLabels.length; i++) {
-		rowIndex.put(rowLabels[i], i);
-	    }
+	    this.rowLabels = rowLabels;
 	    return this;
 	}
 
@@ -106,9 +128,9 @@ public class Tabular {
 	public Builder setRows(final int numberOfRows) {
 	    if (numberOfRows < 1)
 		throw new IllegalArgumentException("Number of rows must be at least 1");
-	    rowIndex = new HashMap<String, Integer>();
+	    rowLabels = new String[numberOfRows];
 	    for (int i = 0; i < numberOfRows; i++) {
-		rowIndex.put(Integer.toString(i), i);
+		rowLabels[i] = Integer.toString(i);
 	    }
 	    return this;
 	}
@@ -116,14 +138,11 @@ public class Tabular {
 	/**
 	 * Sets the column labels. Tabular values will have be set using these labels.
 	 *
-	 * @param rowLabels
+	 * @param columnLabels
 	 * @return this builder
 	 */
 	public Builder setColumns(String... columnLabels) {
-	    columnIndex = new HashMap<String, Integer>();
-	    for (int i = 0; i < columnLabels.length; i++) {
-		columnIndex.put(columnLabels[i], i);
-	    }
+	    this.columnLabels = columnLabels;
 	    return this;
 	}
 
@@ -136,15 +155,15 @@ public class Tabular {
 	public Builder setColumns(final int numberOfColumns) {
 	    if (numberOfColumns <= 0)
 		throw new IllegalArgumentException("Number of columns must be at least 1");
-	    columnIndex = new HashMap<String, Integer>();
+	    columnLabels = new String[numberOfColumns];
 	    for (int i = 0; i < numberOfColumns; i++) {
-		columnIndex.put(Integer.toString(i), i);
+		columnLabels[i] = Integer.toString(i);
 	    }
 	    return this;
 	}
 
 	public Tabular build() {
-	    return new Tabular(rowIndex, columnIndex);
+	    return new Tabular(rowLabels, columnLabels);
 	}
 
     }
