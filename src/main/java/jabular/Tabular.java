@@ -25,8 +25,8 @@ public class Tabular {
 	data = new String[rowIndex.size()][columnIndex.size()];
     }
 
-    public static TabularBuilder getBuilder() {
-	return new TabularBuilder();
+    public static Builder getBuilder() {
+	return new Builder();
     }
 
     public void setValue(int rowNumber, int columnNumber, String value) {
@@ -78,7 +78,7 @@ public class Tabular {
 	return index;
     }
 
-    public static class TabularBuilder {
+    public static class Builder {
 
 	private Map<String, Integer> rowIndex;
 	private Map<String, Integer> columnIndex;
@@ -89,7 +89,7 @@ public class Tabular {
 	 * @param rowLabels
 	 * @return this builder
 	 */
-	public TabularBuilder setRows(String... rowLabels) {
+	public Builder setRows(String... rowLabels) {
 	    rowIndex = new HashMap<String, Integer>();
 	    for (int i = 0; i < rowLabels.length; i++) {
 		rowIndex.put(rowLabels[i], i);
@@ -103,7 +103,7 @@ public class Tabular {
 	 * @param numberOfRows
 	 * @return this builder
 	 */
-	public TabularBuilder setRows(final int numberOfRows) {
+	public Builder setRows(final int numberOfRows) {
 	    if (numberOfRows < 1)
 		throw new IllegalArgumentException("Number of rows must be at least 1");
 	    rowIndex = new HashMap<String, Integer>();
@@ -119,7 +119,7 @@ public class Tabular {
 	 * @param rowLabels
 	 * @return this builder
 	 */
-	public TabularBuilder setColumns(String... columnLabels) {
+	public Builder setColumns(String... columnLabels) {
 	    columnIndex = new HashMap<String, Integer>();
 	    for (int i = 0; i < columnLabels.length; i++) {
 		columnIndex.put(columnLabels[i], i);
@@ -133,7 +133,7 @@ public class Tabular {
 	 * @param numberOfColumns
 	 * @return this builder
 	 */
-	public TabularBuilder setColumns(final int numberOfColumns) {
+	public Builder setColumns(final int numberOfColumns) {
 	    if (numberOfColumns <= 0)
 		throw new IllegalArgumentException("Number of columns must be at least 1");
 	    columnIndex = new HashMap<String, Integer>();
