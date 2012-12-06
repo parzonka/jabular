@@ -29,6 +29,18 @@ public class Tabular {
 	return new TabularBuilder();
     }
 
+    public void setValue(int rowNumber, int columnNumber, String value) {
+	setValue(Integer.toString(rowNumber), Integer.toString(columnNumber), value);
+    }
+
+    public void setValue(int rowNumber, String columnLabel, String value) {
+	setValue(Integer.toString(rowNumber), columnLabel, value);
+    }
+
+    public void setValue(String rowLabel, int columnNumber, String value) {
+	setValue(rowLabel, Integer.toString(columnNumber), value);
+    }
+
     public void setValue(String rowLabel, String columnLabel, String value) {
 	Integer[] index = getIndex(rowLabel, columnLabel);
 	data[index[0]][index[1]] = value;
@@ -39,8 +51,22 @@ public class Tabular {
 	return data[index[0]][index[1]];
     }
 
+    public String getValue(int rowNumber, int columnNumber) {
+	return getValue(Integer.toString(rowNumber), Integer.toString(columnNumber));
+    }
+
+    public String getValue(int rowNumber, String columnLabel) {
+	Integer[] index = getIndex(Integer.toString(rowNumber), columnLabel);
+	return data[index[0]][index[1]];
+    }
+
+    public String getValue(String rowLabel, int columnNumber) {
+	Integer[] index = getIndex(rowLabel, Integer.toString(columnNumber));
+	return data[index[0]][index[1]];
+    }
+
     private Integer[] getIndex(String rowLabel, String columnLabel) {
-	Integer[] index = { rowIndex.get(rowLabel), columnIndex.get(columnLabel)};
+	Integer[] index = { rowIndex.get(rowLabel), columnIndex.get(columnLabel) };
 	if (index[0] == null) {
 	    throw new IllegalArgumentException(String.format("The rowLabel [%s] is unknown. Known labels are: %s",
 		    rowLabel, rowIndex.keySet().toString()));
@@ -102,8 +128,7 @@ public class Tabular {
 	}
 
 	/**
-	 * Sets the number of columns. Tabular values will have to be set using strings in [0, ...,
-	 * $numberOfColumns].
+	 * Sets the number of columns. Tabular values will have to be set using strings in [0, ..., $numberOfColumns].
 	 *
 	 * @param numberOfColumns
 	 * @return this builder

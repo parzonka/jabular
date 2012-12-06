@@ -53,4 +53,26 @@ public class TabularTest {
 	assertEquals("1-c", tabular.getValue("1", "c"));
     }
 
+    @Test
+    public void getValue_int_String() throws Exception {
+	Tabular tabular = Tabular.getBuilder().setColumns(1).setRows(1).build();
+	tabular.setValue(0, "0", "Foo");
+	assertEquals("Foo", tabular.getValue(0, "0"));
+    }
+
+    @Test
+    public void getValue_String_int() throws Exception {
+	Tabular tabular = Tabular.getBuilder().setColumns(1).setRows(1).build();
+	tabular.setValue("0", 0, "Foo");
+	assertEquals("Foo", tabular.getValue("0", 0));
+    }
+
+    @Test
+    public void getValue_int_int() throws Exception {
+	Tabular tabular = Tabular.getBuilder().setColumns(1).setRows(1).build();
+	tabular.setValue(0, 0, "Foo");
+	assertEquals("Foo", tabular.getValue(0, 0));
+    }
+
+
 }
