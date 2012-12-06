@@ -5,21 +5,23 @@ Export tabular data from Java to LaTeX.
 ##Usage
 
 ```java
-Tabular tabular = Tabular.getBuilder().setRows(2).setColumns("a", "b", "c").build();
-tabular.setValue(0, "a", "0-a");
-tabular.setValue(0, "b", "0-b");
-tabular.setValue(0, "c", "0-c");
-tabular.setValue(1, "a", "1-a");
-tabular.setValue(1, "b", "1-b");
-tabular.setValue(1, "c", "1-c");
+Tabular tabular = Tabular.getBuilder().setRows("Lion", "Tiger").setColumns("Jaguar", "Leopard").build();
+tabular.setValue("Lion", "Jaguar", "Liguar");
+tabular.setValue("Lion", "Leopard", "Lipard");
+tabular.setValue("Tiger", "Jaguar", "Tiguar");
+tabular.setValue("Tiger", "Leopard", "Tigard");
 System.out.println(new LaTeXRenderer(tabular).setPrintRowLabels(true).setPrintColumnLabels(true).toString());
 ```
-Will result to:
+Will get rendered to:
 
 ```latex
-\begin{tabular}{l|lll}
-  & a & b & c \\ \hline
-0 & 0-a & 0-b & 0-c \\
-1 & 1-a & 1-b & 1-c \\
+\begin{tabular}{l|ll}
+  & Jaguar & Leopard \\ \hline
+Lion & Liguar & Lipard \\
+Tiger & Tiguar & Tigard \\
 \end{tabular}
 ```
+
+Which can be set in LaTeX:
+
+![hybrids png](https://github.com/parzonka/jabular/wiki/image/hybrids.png)
