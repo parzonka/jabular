@@ -27,13 +27,34 @@ public class LaTeXRendererTest {
 	tabular.setValue(1, "c", "1-c");
 	String actual = new LaTeXRenderer(tabular).setPrintRowLabels(true).setPrintColumnLabels(true).toString();
 
-	System.out.println(actual);
+	System.out.println(actual + "\n");
 
 	String expected = "" + //
 		"\\begin{tabular}{l|lll}\n" + //
 		"  & a & b & c \\\\ \\hline\n" + //
 		"0 & 0-a & 0-b & 0-c \\\\\n" + //
 		"1 & 1-a & 1-b & 1-c \\\\\n" + //
+		"\\end{tabular}";
+
+	assertEquals(expected, actual);
+    }
+
+    @Test
+    public void render_felineHybrids() throws Exception {
+	Tabular tabular = Tabular.getBuilder().setRows("Lion", "Tiger").setColumns("Jaguar", "Leopard").build();
+	tabular.setValue("Lion", "Jaguar", "Liguar");
+	tabular.setValue("Lion", "Leopard", "Lipard");
+	tabular.setValue("Tiger", "Jaguar", "Tiguar");
+	tabular.setValue("Tiger", "Leopard", "Tigard");
+	String actual = new LaTeXRenderer(tabular).setPrintRowLabels(true).setPrintColumnLabels(true).toString();
+
+	System.out.println(actual + "\n");
+
+	String expected = "" + //
+		"\\begin{tabular}{l|ll}\n" + //
+		"  & Jaguar & Leopard \\\\ \\hline\n" + //
+		"Lion & Liguar & Lipard \\\\\n" + //
+		"Tiger & Tiguar & Tigard \\\\\n" + //
 		"\\end{tabular}";
 
 	assertEquals(expected, actual);

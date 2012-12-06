@@ -10,6 +10,8 @@
  */
 package jabular;
 
+import java.util.Arrays;
+
 /**
  * Renders a tabular to String. Configurable in fluent style.
  */
@@ -90,9 +92,9 @@ public class LaTeXRenderer {
 	} else {
 	    sbHeader = new StringBuilder();
 	    sbHeader.append("{");
-	    for (int j = -printColumnLabels; j <= rows; j++) {
+	    for (int i = -printRowLabels; i < columns; i++) {
 		sbHeader.append("l");
-		if (j < 0) {
+		if (i < 0) {
 		    sbHeader.append("|");
 		}
 	    }
@@ -106,7 +108,7 @@ public class LaTeXRenderer {
 		    sbResult.append("  & ");
 		} else if (j < 0) {
 		    sbResult.append(tabular.getColumnLabels()[i]);
-		    if (i < rows) {
+		    if (i < columns - 1) {
 			sbResult.append(" & ");
 		    } else {
 			sbResult.append(" \\\\ \\hline\n");
@@ -115,7 +117,7 @@ public class LaTeXRenderer {
 		    sbResult.append(tabular.getRowLabels()[j]).append(" & ");
 		} else {
 		    sbResult.append(tabular.getData()[j][i]);
-		    if (i < rows) {
+		    if (i < columns - 1) {
 			sbResult.append(" & ");
 		    } else {
 			sbResult.append(" \\\\");
