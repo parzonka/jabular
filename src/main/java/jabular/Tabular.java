@@ -17,16 +17,39 @@ public class Tabular {
 
     private final Map<Object, Integer> rowIndex;
     private final Map<Object, Integer> columnIndex;
-    private final Object[][] data;
+    private final String[][] data;
 
     private Tabular(Map<Object, Integer> rowIndex, Map<Object, Integer> columnIndex) {
 	this.rowIndex = rowIndex;
 	this.columnIndex = columnIndex;
-	data = new Object[rowIndex.size()][columnIndex.size()];
+	data = new String[rowIndex.size()][columnIndex.size()];
     }
 
     public static TabularBuilder getBuilder() {
 	return new TabularBuilder();
+    }
+
+    public void setValue(String rowLabel, String columnLabel, String value) {
+	Integer[] index = getIndex(rowLabel, columnLabel);
+	data[index[0]][index[1]] = value;
+    }
+
+    public String getValue(String rowLabel, String columnLabel) {
+	Integer[] index = getIndex(rowLabel, columnLabel);
+	return data[index[0]][index[1]];
+    }
+
+    private Integer[] getIndex(String rowLabel, String columnLabel) {
+	Integer[] index = { rowIndex.get(rowLabel), columnIndex.get(columnLabel)};
+	if (index[0] == null) {
+	    throw new IllegalArgumentException(String.format("The rowLabel [%s] is unknown. Known labels are: %s",
+		    rowLabel, rowIndex.toString()));
+	}
+	if (index[1] == null) {
+	    throw new IllegalArgumentException(String.format("The columnLabel [%s] is unknown. Known labels are: %s",
+		    columnLabel, columnIndex.toString()));
+	}
+	return index;
     }
 
     public static class TabularBuilder {
