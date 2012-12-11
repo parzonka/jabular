@@ -4,6 +4,9 @@ Export tabular data from Java to LaTeX.
 
 ##Usage
 
+Here a toy example demonstrating the Java API:
+(In the real world you will not enter the data manually in your Java, but transfer it from some data structure or fill it by running some algorithm.)
+
 ```java
 Tabular tabular = Tabular.getBuilder().setRows("Lion", "Tiger").setColumns("Jaguar", "Leopard").build();
 tabular.setValue("Lion", "Jaguar", "Liguar");
@@ -22,7 +25,7 @@ Tiger & Tiguar & Tigard \\
 \end{tabular}
 ```
 
-Which can be set in LaTeX:
+Which can now be set in LaTeX:
 
 ![hybrids png](https://github.com/parzonka/jabular/wiki/image/hybrids.png)
 
@@ -34,7 +37,6 @@ Snapshot:
 	<groupId>com.github.parzonka</groupId>
 	<artifactId>java-graphviz</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<scope>compile</scope>
 </dependency>
 ```
 Snapshot repository:
