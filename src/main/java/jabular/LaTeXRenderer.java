@@ -10,7 +10,6 @@
  */
 package jabular;
 
-import java.util.Arrays;
 
 /**
  * Renders a tabular to String. Configurable in fluent style.
