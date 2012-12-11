@@ -35,7 +35,7 @@ Snapshot:
 ```xml
 <dependency>
 	<groupId>com.github.parzonka</groupId>
-	<artifactId>java-graphviz</artifactId>
+	<artifactId>jabular</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 </dependency>
 ```
