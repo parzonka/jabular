@@ -25,3 +25,24 @@ Tiger & Tiguar & Tigard \\
 Which can be set in LaTeX:
 
 ![hybrids png](https://github.com/parzonka/jabular/wiki/image/hybrids.png)
+
+##Maven
+
+Snapshot:
+```xml
+<dependency>
+	<groupId>com.github.parzonka</groupId>
+	<artifactId>java-graphviz</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<scope>compile</scope>
+</dependency>
+```
+Snapshot repository:
+```xml
+<repositories>
+	<repository>
+		<id>parzonka.github.com-snapshots</id>
+		<url>http://parzonka.github.com/m2/snapshots</url>
+	</repository>
+</repositories>
+```
